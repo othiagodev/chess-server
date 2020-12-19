@@ -2,14 +2,15 @@
   "name": "chess",
   "version": "0.1.0",
   "description": "description",
+  "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon main",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r dotenv/config"
   },
   "author": "othiagodev",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "socket.io": "^3.0.4"
   },

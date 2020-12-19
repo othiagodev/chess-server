@@ -1,20 +1,23 @@
-const express = require('express')
+import express from 'express'
+import http from 'http'
+import { Server } from 'socket.io'
+
 const app = express()
-const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const server = http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: process.env.ORIGIN.split(','),
+    methods: process.env.METHODS.split(',')
+  }
+})
 
-const routes = require('./routes')
-
-app.use(express.json())
-app.use(routes)
-
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   console.log('a user connected')
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
 })
 
-server.listen(3003, () => {
+server.listen(process.env.PORT || 3003, () => {
   console.log('server running...')
 })
