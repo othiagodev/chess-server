@@ -1,18 +1,17 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import events from './events.js'
+import socket from './socket.js'
 
-const app = express()
-const server = http.createServer(app)
-const io = new Server(server, {
+const config = {
   cors: {
     origin: process.env.ORIGIN.split(','),
     methods: process.env.METHODS.split(',')
   }
-})
-
-events(io)
+}
+const app = express()
+const server = http.createServer(app)
+socket(new Server(server, config))
 
 server.listen(process.env.PORT || 3003, () => {
   console.log('server running...')
