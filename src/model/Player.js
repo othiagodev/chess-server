@@ -3,7 +3,6 @@ export default props => {
     id: props.id,
     socket: props.socket,
     name: props.name,
-    playerColor: null,
-    game: null
+    playerColor: null
   }
 }
