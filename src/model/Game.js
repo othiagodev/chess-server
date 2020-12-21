@@ -17,8 +17,6 @@ export default function(player) {
   this.capturedPieces = []
 
   this.inicitialSetup = () => {
-    console.log('start setup')
-
     const pieces = []
     this.board = new Board()
 
@@ -35,8 +33,32 @@ export default function(player) {
     console.log('start game')
   }
 
-  this.movePiece = () => {
+  this.movePiece = (currentPossition, targetPosition) => {
 
+  }
+
+  this.generatorData = () => {
+    return {
+      waitingOpponent: false,
+      match: {
+        player1: {
+          id: this.player1.id,
+          name: this.player1.name,
+          playerColor: this.player1.playerColor
+        },
+        player2: {
+          id: this.player2.id,
+          name: this.player2.name,
+          playerColor: this.player2.playerColor
+        },
+        turn: this.turn,
+        currentPlayer: this.turn,
+        board: this.board,
+        check: this.check,
+        checkMate: this.checkMate,
+        capturedPieces: this.capturedPieces
+      }
+    }
   }
 
 }

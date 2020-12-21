@@ -3,12 +3,10 @@ import Game from './model/Game.js'
 import { Color } from './model/Game.js'
 
 export default io => {
-  const games = []
   const players = {}
   let unmatched = null
 
   io.on('connection', socket => {
-
     console.log(`a user connected: ${socket.id}`)
 
     socket.on('disconnect', () => {
@@ -26,7 +24,6 @@ export default io => {
         socket.emit('begin.game', { waitingOpponent: true, match: null })
       } else {
         const game = unmatched
-        games.push(game)
         unmatched = null
 
         game.player2 = player
@@ -38,42 +35,23 @@ export default io => {
           game.player1.playerColor = Color.BLACK
           game.player2.playerColor = Color.WHITE
         }
+        
+        game.player1.game = game
+        game.player2.game = game
+
         game.startGame()
+        const data = game.generatorData()
 
-        const gameFront = generaterGameForFront(game)
-
-        //game.player1.game = game
-        //game.player2.game = game
-
-        players[game.player1.id].socket.emit('begin.game', gameFront)
-        players[game.player2.id].socket.emit('begin.game', gameFront)
+        players[game.player1.id].socket.emit('begin.game', data)
+        players[game.player2.id].socket.emit('begin.game', data)
       }
     })
+
+    socket.on('move.game', data => {
+      const player = players[socket.id]
+      console.log(data);
+    })
+
   })
-
-  function generaterGameForFront(game) {
-    return {
-      waitingOpponent: false,
-      match: {
-        player1: {
-          id: game.player1.id,
-          name: game.player1.name,
-          playerColor: game.player1.playerColor
-        },
-        player2: {
-          id: game.player2.id,
-          name: game.player2.name,
-          playerColor: game.player2.playerColor
-        },
-        turn: game.turn,
-        currentPlayer: game.turn,
-        board: game.board,
-        check: game.check,
-        checkMate: game.checkMate,
-        capturedPieces: game.capturedPieces
-      }
-    }
-
-  }
 
 }
