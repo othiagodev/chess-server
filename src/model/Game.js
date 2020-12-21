@@ -1,51 +1,42 @@
-import Piece, { Color } from './Pieace.js'
+import Pawn from './Piece/Pawn.js'
 import Board from './Board.js'
 
-export default props => {
+export const Color = {
+  BLACK: 'BLACK',
+  WHITE: 'WHITE'
+}
 
-  let player1 = props.player1
-  let player2 = null
-  let turn = null
-  let currentPlayer = null
-  let board = null
-  let check = false
-  let checkMate = false
-  let capturedPieces = []
+export default function(player) {
+  this.player1 = player
+  this.player2 = null
+  this.turn = null
+  this.currentPlayer = null
+  this.board = null
+  this.check = false
+  this.checkMate = false
+  this.capturedPieces = []
 
-  const inicitialSetup = () => {
-    console.log('start setup');
+  this.inicitialSetup = () => {
+    console.log('start setup')
 
     const pieces = []
-    board = Board()
+    this.board = new Board()
 
-    pieces.push(Piece({ color: Color.WHITE, position: 'b5' }))
-    pieces.push(Piece({ color: Color.BLACK, position: 'g5' }))
+    pieces.push(new Pawn(Color.WHITE, 'b5'))
+    pieces.push(new Pawn(Color.BLACK, 'g4'))
 
-    pieces.forEach(piece => board.placaNewPiece(piece))
+    pieces.forEach(piece => this.board.placaNewPiece(piece))
   }
 
-  const startGame = () => {
-    inicitialSetup()
-    turn = 1
-    currentPlayer = Color.WHITE
-    console.log('start game');
+  this.startGame = () => {
+    this.inicitialSetup()
+    this.turn = 1
+    this.currentPlayer = Color.WHITE
+    console.log('start game')
   }
 
-  const movePiece = () => {
+  this.movePiece = () => {
 
   }
 
-  return {
-    player1,
-    player2,
-    turn,
-    currentPlayer,
-    board,
-    check,
-    checkMate,
-    capturedPieces,
-    inicitialSetup,
-    startGame,
-    movePiece
-  }
 }

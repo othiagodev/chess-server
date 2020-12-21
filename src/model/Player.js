@@ -1,8 +1,6 @@
-export default props => {
-  return {
-    id: props.id,
-    socket: props.socket,
-    name: props.name,
-    playerColor: null
-  }
+export default function (id, socket, name) {
+  this.id = id,
+  this.socket = socket,
+  this.name = name,
+  this.playerColor = null
 }

@@ -1,11 +1,7 @@
-export default props => {
+export default function() {
+  this.board = Array(8).fill(null).map(() => Array(8).fill(null))
 
-  const placaNewPiece = () => {
-
-  }
-
-  return {
-    board: Array(8).fill(Array(8).fill(null)),
-    placaNewPiece
+  this.placaNewPiece = piece => {
+    this.board[7][7] = piece
   }
 }

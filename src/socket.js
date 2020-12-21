@@ -1,6 +1,6 @@
 import Player from './model/Player.js'
 import Game from './model/Game.js'
-import { Color } from './model/Pieace.js'
+import { Color } from './model/Game.js'
 
 export default io => {
   const games = []
@@ -17,16 +17,16 @@ export default io => {
     })
 
     socket.on('begin.game', data => {
-      const player = Player({ name: data.name, id: socket.id, socket })
+      const player = new Player(socket.id, socket, data.name)
       players[player.id] = player
 
       if (!unmatched) {
-        const game = Game({ player1: player })
+        const game = new Game(player)
         unmatched = game
         socket.emit('begin.game', { waitingOpponent: true, match: null })
       } else {
         const game = unmatched
-        games.join(game)
+        games.push(game)
         unmatched = null
 
         game.player2 = player
