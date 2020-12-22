@@ -55,6 +55,11 @@ export default io => {
           const game = players[socket.id].game
           const completeMove = game.doMovePiece(data.sourcePosition, data.targetPosition)
           console.log(completeMove);
+          if (completeMove) {
+            game.emitToPlayers('next.turn', game.generatorData())
+          } else {
+            socket.emit('invalid.move')
+          }
         } else {
           console.log('invalid chess move data')
         }

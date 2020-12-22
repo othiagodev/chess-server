@@ -7,16 +7,33 @@ export default function (color, position) {
   this.chessPosition = position
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
+    console.log(sourcePosition, targetPosition);
+
     if (this.color === Color.WHITE) {
       //pawn white move
-      if ('') {
+      if (
+        (!board[sourcePosition.i][sourcePosition.j + 1] && sourcePosition.i === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
+        (!board[sourcePosition.i][sourcePosition.j + 2] && sourcePosition.i === targetPosition.i && sourcePosition.j + 2 === targetPosition.j) ||
+        (board[sourcePosition.i][sourcePosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
+        (board[sourcePosition.i][sourcePosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j)
+      ) {
         return true
       }
     } else {
       //pawn black move
-      if ('') {
+      if (
+        (!board[sourcePosition.i][sourcePosition.j + 1] && sourcePosition.i === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+        (!board[sourcePosition.i][sourcePosition.j + 2] && sourcePosition.i === targetPosition.i && sourcePosition.j - 2 === targetPosition.j) ||
+        (board[sourcePosition.i][sourcePosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+        (board[sourcePosition.i][sourcePosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j)
+      ) {
         return true
       }
+    }
+
+    //en passant
+    if ('') {
+      return true
     }
     return false
   }

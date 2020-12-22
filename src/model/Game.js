@@ -34,28 +34,29 @@ export default function (player) {
   }
 
   this.doMovePiece = (sourcePosition, targetPosition) => {
-    console.log(sourcePosition, targetPosition);
-
     const src = chessPositionToPosition(sourcePosition)
     const trg = chessPositionToPosition(targetPosition)
 
     const piece = this.chessBoard.board[src.i][src.j]
 
-    const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
+    if (piece && piece.color === this.currentPlayer) {
+      const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
 
-    if (isPossibleMove) {
-      this.chessBoard.board[trg.i][trg.j] = piece
-      this.chessBoard.board[src.i][src.j] = null
-      piece.moveCount++
-      this.turn++
-      this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE 
-      return true
+      if (isPossibleMove) {
+        this.chessBoard.board[trg.i][trg.j] = piece
+        this.chessBoard.board[src.i][src.j] = null
+        piece.moveCount++
+        this.turn++
+        this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
+        console.table(this.chessBoard.board)
+        return true
+      }
     }
     return false
   }
 
   const undoMovePiece = () => {
-    
+
   }
 
   this.generatorData = () => {
@@ -82,6 +83,16 @@ export default function (player) {
     }
   }
 
+  this.emitToPlayers = (string, data) => {
+    if (this.player1 && this.player2) {
+      const players = [this.player1, this.player2]
+      players.forEach(player => {
+        player.socket.emit(string, data)
+        console.log(string);
+      })
+    }
+  }
+
 }
 
 export function chessPositionToPosition(chessPosition) {
@@ -97,7 +108,7 @@ export function chessPositionToPosition(chessPosition) {
 
   listLetterChessPosition.forEach((value, index) => {
     if (letterChessPosition === value) {
-      position.i =  index
+      position.i = index
     }
   })
 
@@ -108,5 +119,5 @@ export function chessPositionToPosition(chessPosition) {
   })
 
   if (position.i && position.j)
-  return position
+    return position
 }

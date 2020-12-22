@@ -1,7 +1,7 @@
 import { chessPositionToPosition } from './Game.js'
 
 export default function() {
-  this.board = Array(8).fill(null).map(() => Array(8).fill(null))
+  this.board = new Array(8).fill(null).map(() => new Array(8).fill(null))
 
   this.placaNewPiece = piece => {
     const position = chessPositionToPosition(piece.chessPosition)
