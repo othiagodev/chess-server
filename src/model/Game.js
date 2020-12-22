@@ -6,7 +6,7 @@ export const Color = {
   WHITE: 'WHITE'
 }
 
-export default function(player) {
+export default function (player) {
   this.player1 = player
   this.player2 = null
   this.turn = null
@@ -18,12 +18,12 @@ export default function(player) {
 
   this.inicitialSetup = () => {
     const pieces = []
-    this.board = new Board()
+    this.chessBoard = new Board()
 
     pieces.push(new Pawn(Color.WHITE, 'b5'))
     pieces.push(new Pawn(Color.BLACK, 'g4'))
 
-    pieces.forEach(piece => this.board.placaNewPiece(piece))
+    pieces.forEach(piece => this.chessBoard.placaNewPiece(piece))
   }
 
   this.startGame = () => {
@@ -33,8 +33,29 @@ export default function(player) {
     console.log('start game')
   }
 
-  this.movePiece = (currentPossition, targetPosition) => {
+  this.doMovePiece = (sourcePosition, targetPosition) => {
+    console.log(sourcePosition, targetPosition);
 
+    const src = chessPositionToPosition(sourcePosition)
+    const trg = chessPositionToPosition(targetPosition)
+
+    const piece = this.chessBoard.board[src.i][src.j]
+
+    const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
+
+    if (isPossibleMove) {
+      this.chessBoard.board[trg.i][trg.j] = piece
+      this.chessBoard.board[src.i][src.j] = null
+      piece.moveCount++
+      this.turn++
+      this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE 
+      return true
+    }
+    return false
+  }
+
+  const undoMovePiece = () => {
+    
   }
 
   this.generatorData = () => {
@@ -53,7 +74,7 @@ export default function(player) {
         },
         turn: this.turn,
         currentPlayer: this.turn,
-        board: this.board,
+        chessBoard: this.chessBoard,
         check: this.check,
         checkMate: this.checkMate,
         capturedPieces: this.capturedPieces
@@ -61,4 +82,31 @@ export default function(player) {
     }
   }
 
+}
+
+export function chessPositionToPosition(chessPosition) {
+  const listLetterChessPosition = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+  const listNumberChessPosition = ['1', '2', '3', '4', '5', '6', '7', '8']
+
+  const letterChessPosition = chessPosition.substring(1, 0)
+  const numberChessPosition = chessPosition.substring(2, 1)
+
+  const position = {
+    i: null, j: null
+  }
+
+  listLetterChessPosition.forEach((value, index) => {
+    if (letterChessPosition === value) {
+      position.i =  index
+    }
+  })
+
+  listNumberChessPosition.forEach((value, index) => {
+    if (numberChessPosition === value) {
+      position.j = index
+    }
+  })
+
+  if (position.i && position.j)
+  return position
 }

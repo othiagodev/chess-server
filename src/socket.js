@@ -10,46 +10,57 @@ export default io => {
     console.log(`a user connected: ${socket.id}`)
 
     socket.on('disconnect', () => {
-      console.log(`${players[socket.id].name} disconnected`)
+      console.log(`a user disconnected: ${socket.id}`)
       delete players[socket.id]
     })
 
     socket.on('begin.game', data => {
-      const player = new Player(socket.id, socket, data.name)
-      players[player.id] = player
+      if (data.name) {
+        const player = new Player(socket.id, socket, data.name)
+        players[player.id] = player
 
-      if (!unmatched) {
-        const game = new Game(player)
-        unmatched = game
-        socket.emit('begin.game', { waitingOpponent: true, match: null })
-      } else {
-        const game = unmatched
-        unmatched = null
-
-        game.player2 = player
-
-        if (Math.round(Math.random())) {
-          game.player1.playerColor = Color.WHITE
-          game.player2.playerColor = Color.BLACK
+        if (!unmatched) {
+          const game = new Game(player)
+          unmatched = game
+          socket.emit('begin.game', { waitingOpponent: true, match: null })
         } else {
-          game.player1.playerColor = Color.BLACK
-          game.player2.playerColor = Color.WHITE
+          const game = unmatched
+          unmatched = null
+
+          game.player2 = player
+
+          if (Math.round(Math.random())) {
+            game.player1.playerColor = Color.WHITE
+            game.player2.playerColor = Color.BLACK
+          } else {
+            game.player1.playerColor = Color.BLACK
+            game.player2.playerColor = Color.WHITE
+          }
+
+          game.player1.game = game
+          game.player2.game = game
+
+          game.startGame()
+          const data = game.generatorData()
+
+          players[game.player1.id].socket.emit('begin.game', data)
+          players[game.player2.id].socket.emit('begin.game', data)
         }
-        
-        game.player1.game = game
-        game.player2.game = game
-
-        game.startGame()
-        const data = game.generatorData()
-
-        players[game.player1.id].socket.emit('begin.game', data)
-        players[game.player2.id].socket.emit('begin.game', data)
       }
     })
 
     socket.on('move.game', data => {
-      const player = players[socket.id]
-      console.log(data);
+      if (players[socket.id]) {
+        if (data.sourcePosition && data.targetPosition) {
+          const game = players[socket.id].game
+          const completeMove = game.doMovePiece(data.sourcePosition, data.targetPosition)
+          console.log(completeMove);
+        } else {
+          console.log('invalid chess move data')
+        }
+      } else {
+        console.log('player not found')
+      }
     })
 
   })
