@@ -7,8 +7,6 @@ export default function (color, position) {
   this.chessPosition = position
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
-    console.log(sourcePosition, targetPosition);
-
     if (this.color === Color.WHITE) {
       //pawn white move
       if (

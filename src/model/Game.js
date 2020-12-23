@@ -20,8 +20,8 @@ export default function (player) {
     const pieces = []
     this.chessBoard = new Board()
 
-    pieces.push(new Pawn(Color.WHITE, 'b5'))
-    pieces.push(new Pawn(Color.BLACK, 'g4'))
+    pieces.push(new Pawn(Color.WHITE, 'd2'))
+    pieces.push(new Pawn(Color.BLACK, 'e7'))
 
     pieces.forEach(piece => this.chessBoard.placaNewPiece(piece))
   }
@@ -34,6 +34,7 @@ export default function (player) {
   }
 
   this.doMovePiece = (sourcePosition, targetPosition) => {
+    console.table(this.chessBoard.board)
     const src = chessPositionToPosition(sourcePosition)
     const trg = chessPositionToPosition(targetPosition)
 
@@ -43,11 +44,14 @@ export default function (player) {
       const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
 
       if (isPossibleMove) {
+        this.turn++
+        piece.moveCount += 1
+        piece.chessPosition = targetPosition
+        this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
+        if (this.chessBoard.board[trg.i][trg.j])
+          this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j])
         this.chessBoard.board[trg.i][trg.j] = piece
         this.chessBoard.board[src.i][src.j] = null
-        piece.moveCount++
-        this.turn++
-        this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
         console.table(this.chessBoard.board)
         return true
       }
@@ -74,7 +78,7 @@ export default function (player) {
           playerColor: this.player2.playerColor
         },
         turn: this.turn,
-        currentPlayer: this.turn,
+        currentPlayer: this.currentPlayer,
         chessBoard: this.chessBoard,
         check: this.check,
         checkMate: this.checkMate,
@@ -88,7 +92,6 @@ export default function (player) {
       const players = [this.player1, this.player2]
       players.forEach(player => {
         player.socket.emit(string, data)
-        console.log(string);
       })
     }
   }

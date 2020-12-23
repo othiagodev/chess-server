@@ -54,7 +54,6 @@ export default io => {
         if (data.sourcePosition && data.targetPosition) {
           const game = players[socket.id].game
           const completeMove = game.doMovePiece(data.sourcePosition, data.targetPosition)
-          console.log(completeMove);
           if (completeMove) {
             game.emitToPlayers('next.turn', game.generatorData())
           } else {
