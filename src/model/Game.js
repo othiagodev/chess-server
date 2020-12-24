@@ -20,8 +20,23 @@ export default function (player) {
     const pieces = []
     this.chessBoard = new Board()
 
+    pieces.push(new Pawn(Color.WHITE, 'a2'))
+    pieces.push(new Pawn(Color.WHITE, 'b2'))
+    pieces.push(new Pawn(Color.WHITE, 'c2'))
     pieces.push(new Pawn(Color.WHITE, 'd2'))
+    pieces.push(new Pawn(Color.WHITE, 'e2'))
+    pieces.push(new Pawn(Color.WHITE, 'f2'))
+    pieces.push(new Pawn(Color.WHITE, 'g2'))
+    pieces.push(new Pawn(Color.WHITE, 'h2'))
+
+    pieces.push(new Pawn(Color.BLACK, 'a7'))
+    pieces.push(new Pawn(Color.BLACK, 'b7'))
+    pieces.push(new Pawn(Color.BLACK, 'c7'))
+    pieces.push(new Pawn(Color.BLACK, 'd7'))
     pieces.push(new Pawn(Color.BLACK, 'e7'))
+    pieces.push(new Pawn(Color.BLACK, 'f7'))
+    pieces.push(new Pawn(Color.BLACK, 'g7'))
+    pieces.push(new Pawn(Color.BLACK, 'h7'))
 
     pieces.forEach(piece => this.chessBoard.placaNewPiece(piece))
   }
@@ -38,7 +53,7 @@ export default function (player) {
     const src = chessPositionToPosition(sourcePosition)
     const trg = chessPositionToPosition(targetPosition)
 
-    const piece = this.chessBoard.board[src.i][src.j]
+    const piece = this.chessBoard.board[src.i][src.j] //bug com a8 e h8 ou similar
 
     if (piece && piece.color === this.currentPlayer) {
       const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
@@ -121,6 +136,6 @@ export function chessPositionToPosition(chessPosition) {
     }
   })
 
-  if (position.i && position.j)
+  if (position.i !== null && position.j !== null)
     return position
 }
