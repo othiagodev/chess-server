@@ -6,7 +6,7 @@ export const Color = {
   WHITE: 'WHITE'
 }
 
-export default function (player) {
+export default function(player) {
   this.player1 = player
   this.player2 = null
   this.turn = null
@@ -49,26 +49,50 @@ export default function (player) {
   }
 
   this.doMovePiece = (sourcePosition, targetPosition) => {
-    console.table(this.chessBoard.board)
     const src = chessPositionToPosition(sourcePosition)
     const trg = chessPositionToPosition(targetPosition)
 
-    const piece = this.chessBoard.board[src.i][src.j] //bug com a8 e h8 ou similar
+    const piece = this.chessBoard.board[src.i][src.j]
+
+    const handleGameStage = () => {
+      this.turn++
+      piece.moveCount += 1
+      piece.chessPosition = targetPosition
+      this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
+    }
 
     if (piece && piece.color === this.currentPlayer) {
       const isPossibleMove = piece.possibleMove(this.chessBoard.board, src, trg)
 
-      if (isPossibleMove) {
-        this.turn++
-        piece.moveCount += 1
-        piece.chessPosition = targetPosition
-        this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
-        if (this.chessBoard.board[trg.i][trg.j])
-          this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j])
-        this.chessBoard.board[trg.i][trg.j] = piece
-        this.chessBoard.board[src.i][src.j] = null
-        console.table(this.chessBoard.board)
-        return true
+      if (isPossibleMove.status) {
+        if (isPossibleMove.specialMove === 'enPassant') {
+          if (this.chessBoard.board[src.i][src.j].color === Color.WHITE) {
+            handleGameStage()
+            this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j - 1])
+            this.chessBoard.board[trg.i][trg.j] = piece
+            this.chessBoard.board[trg.i][trg.j - 1] = null
+            this.chessBoard.board[src.i][src.j] = null
+            return true
+
+          } else {
+            handleGameStage()
+            this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j + 1])
+            this.chessBoard.board[trg.i][trg.j] = piece
+            this.chessBoard.board[trg.i][trg.j + 1] = null
+            this.chessBoard.board[src.i][src.j] = null
+            return true
+
+          }
+        } else {
+          handleGameStage()
+          if (this.chessBoard.board[trg.i][trg.j])
+            this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j])
+
+          this.chessBoard.board[trg.i][trg.j] = piece
+          this.chessBoard.board[src.i][src.j] = null
+
+          return true
+        }
       }
     }
     return false
