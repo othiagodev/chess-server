@@ -1,6 +1,6 @@
 import { Color } from "../Game.js"
 
-export default function(color, position) {
+export default function (color, position) {
   this.symbol = 'P'
   this.color = color
   this.moveCount = 0
@@ -15,7 +15,7 @@ export default function(color, position) {
         (board[targetPosition.i][targetPosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
         (board[targetPosition.i][targetPosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j)
       ) {
-        return {status: true}
+        return { status: true }
       }
     } else {
       //pawn black move
@@ -25,7 +25,7 @@ export default function(color, position) {
         (board[targetPosition.i][targetPosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
         (board[targetPosition.i][targetPosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j)
       ) {
-        return {status: true}
+        return { status: true }
       }
     }
 
@@ -37,7 +37,7 @@ export default function(color, position) {
         (board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j + 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
       ) {
         const specialMove = 'enPassant'
-        return {status: true, specialMove: specialMove}
+        return { status: true, specialMove: specialMove }
       }
     } else {
       //pawn white move
@@ -46,10 +46,10 @@ export default function(color, position) {
         (board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j - 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
       ) {
         const specialMove = 'enPassant'
-        return {status: true, specialMove: specialMove}
+        return { status: true, specialMove: specialMove }
       }
     }
-    return {status: false}
+    return { status: false }
   }
 
 }
