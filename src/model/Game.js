@@ -1,6 +1,7 @@
 import Pawn from './Piece/Pawn.js'
 import Board from './Board.js'
 import Knight from './Piece/Knight.js'
+import Bishop from './Piece/Bishop.js'
 
 export const Color = {
   BLACK: 'BLACK',
@@ -21,6 +22,8 @@ export default function(player) {
     const pieces = []
     this.chessBoard = new Board()
 
+    pieces.push(new Bishop(Color.WHITE, 'c1'))
+    pieces.push(new Bishop(Color.WHITE, 'f1'))
     pieces.push(new Knight(Color.WHITE, 'b1'))
     pieces.push(new Knight(Color.WHITE, 'g1'))
     pieces.push(new Pawn(Color.WHITE, 'a2'))
@@ -32,6 +35,8 @@ export default function(player) {
     pieces.push(new Pawn(Color.WHITE, 'g2'))
     pieces.push(new Pawn(Color.WHITE, 'h2'))
 
+    pieces.push(new Bishop(Color.BLACK, 'c8'))
+    pieces.push(new Bishop(Color.BLACK, 'f8'))
     pieces.push(new Knight(Color.BLACK, 'b8'))
     pieces.push(new Knight(Color.BLACK, 'g8'))
     pieces.push(new Pawn(Color.BLACK, 'a7'))
