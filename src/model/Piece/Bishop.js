@@ -6,70 +6,54 @@ export default function (color, position) {
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
     if (targetPosition.i < sourcePosition.i && targetPosition.j > sourcePosition.j) {
-      for (let i = sourcePosition.i; i >= targetPosition.i && i >= 0;) {
-        for (let j = sourcePosition.j; j <= targetPosition.j && j < 8;) {
-          if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
-            return { status: true }
+      for (let i = sourcePosition.i, j = sourcePosition.j; i >= targetPosition.i && j <= targetPosition.j; i--, j++) {
+        if (board[i][j] && sourcePosition.i !== i && sourcePosition.j !== j && i !== targetPosition.i && j !== targetPosition.j)
+          return { status: false }
 
-          if (board[i][j] && board[i][j].color !== this.color)
-            return { status: true }
+        if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
+          return { status: true }
 
-          if (board[i][j] && board[i][j].color === this.color && sourcePosition.i !== i && sourcePosition.j !== j)
-            return { status: false }
-
-          i--; j++
-        }
+        if (board[i][j] && board[i][j].color !== this.color && i === targetPosition.i && j === targetPosition.j)
+          return { status: true }
       }
     }
 
     if (targetPosition.i > sourcePosition.i && targetPosition.j > sourcePosition.j) {
-      for (let i = sourcePosition.i; i <= targetPosition.i && i < 8;) {
-        for (let j = sourcePosition.j; j <= targetPosition.j && j < 8;) {
-          if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
-            return { status: true }
+      for (let i = sourcePosition.i, j = sourcePosition.j; i <= targetPosition.i && j <= targetPosition.j; i++, j++) {
+        if (board[i][j] && sourcePosition.i !== i && sourcePosition.j !== j && i !== targetPosition.i && j !== targetPosition.j)
+          return { status: false }
 
-          if (board[i][j] && board[i][j].color !== this.color)
-            return { status: true }
+        if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
+          return { status: true }
 
-          if (board[i][j] && board[i][j].color === this.color && sourcePosition.i !== i && sourcePosition.j !== j)
-            return { status: false }
-
-          i++; j++
-        }
+        if (board[i][j] && board[i][j].color !== this.color && i === targetPosition.i && j === targetPosition.j)
+          return { status: true }
       }
     }
 
     if (targetPosition.i > sourcePosition.i && targetPosition.j < sourcePosition.j) {
-      for (let i = sourcePosition.i; i <= targetPosition.i && i < 8;) {
-        for (let j = sourcePosition.j; j >= targetPosition.j && j >= 0;) {
-          if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
-            return { status: true }
+      for (let i = sourcePosition.i, j = sourcePosition.j; i <= targetPosition.i && j >= targetPosition.j; i++, j--) {
+        if (board[i][j] && sourcePosition.i !== i && sourcePosition.j !== j && i !== targetPosition.i && j !== targetPosition.j)
+          return { status: false }
 
-          if (board[i][j] && board[i][j].color !== this.color)
-            return { status: true }
+        if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
+          return { status: true }
 
-          if (board[i][j] && board[i][j].color === this.color && sourcePosition.i !== i && sourcePosition.j !== j)
-            return { status: false }
-
-          i++; j--
-        }
+        if (board[i][j] && board[i][j].color !== this.color && i === targetPosition.i && j === targetPosition.j)
+          return { status: true }
       }
     }
 
     if (targetPosition.i < sourcePosition.i && targetPosition.j < sourcePosition.j) {
-      for (let i = sourcePosition.i; i >= targetPosition.i && i >= 0;) {
-        for (let j = sourcePosition.j; j >= targetPosition.j && j >= 0;) {
-          if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
-            return { status: true }
+      for (let i = sourcePosition.i, j = sourcePosition.j; i >= targetPosition.i && j >= targetPosition.j; i--, j--) {
+        if (board[i][j] && sourcePosition.i !== i && sourcePosition.j !== j && i !== targetPosition.i && j !== targetPosition.j)
+          return { status: false }
 
-          if (board[i][j] && board[i][j].color !== this.color)
-            return { status: true }
+        if (!board[i][j] && targetPosition.i === i && targetPosition.j === j)
+          return { status: true }
 
-          if (board[i][j] && board[i][j].color === this.color && sourcePosition.i !== i && sourcePosition.j !== j)
-            return { status: false }
-
-          i--; j--
-        }
+        if (board[i][j] && board[i][j].color !== this.color && i === targetPosition.i && j === targetPosition.j)
+          return { status: true }
       }
     }
 
