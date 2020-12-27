@@ -151,7 +151,10 @@ export default function(player) {
     if (this.player1 && this.player2) {
       const players = [this.player1, this.player2]
       players.forEach(player => {
+        if (data)
         player.socket.emit(string, data)
+        else
+        player.socket.emit(string)
       })
     }
   }

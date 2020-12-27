@@ -10,6 +10,10 @@ export default io => {
     console.log(`a user connected: ${socket.id}`)
 
     socket.on('disconnect', () => {
+      if (players[socket.id] && players[socket.id].game) {
+        players[socket.id].game.emitToPlayers('opponent.disconnect')
+      }
+
       console.log(`a user disconnected: ${socket.id}`)
       delete players[socket.id]
     })
