@@ -5,8 +5,6 @@ export default function (color, position) {
   this.chessPosition = position
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
-    console.log(sourcePosition, targetPosition);
-
     //up
     if (sourcePosition.j + 2 === targetPosition.j) {
       if (sourcePosition.i + 1 === targetPosition.i && sourcePosition.i + 1 < 8) {
