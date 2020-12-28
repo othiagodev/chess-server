@@ -104,6 +104,29 @@ export default function(player) {
             return true
 
           }
+        } else if (isPossibleMove.specialMove === 'castling') {
+          console.log('00');
+          if (trg.i < src.i) { 
+            console.log('01');
+            handleGameStage()
+            const rook = this.chessBoard.board[0][src.j]
+            this.chessBoard.board[2][src.j] = piece
+            this.chessBoard.board[3][src.j] = rook
+            this.chessBoard.board[4][src.j] = null
+            this.chessBoard.board[0][src.j] = null
+            return true
+
+          } else {
+            console.log('02');
+            handleGameStage()
+            const rook = this.chessBoard.board[7][src.j]
+            this.chessBoard.board[6][src.j] = piece
+            this.chessBoard.board[5][src.j] = rook
+            this.chessBoard.board[4][src.j] = null
+            this.chessBoard.board[7][src.j] = null
+            return true
+
+          }
         } else {
           handleGameStage()
           if (this.chessBoard.board[trg.i][trg.j])
