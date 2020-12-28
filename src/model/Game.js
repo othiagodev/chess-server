@@ -66,7 +66,6 @@ export default function(player) {
     this.inicitialSetup()
     this.turn = 1
     this.currentPlayer = Color.WHITE
-    console.log('start game')
   }
 
   this.doMovePiece = (sourcePosition, targetPosition) => {
@@ -105,9 +104,7 @@ export default function(player) {
 
           }
         } else if (isPossibleMove.specialMove === 'castling') {
-          console.log('00');
           if (trg.i < src.i) { 
-            console.log('01');
             handleGameStage()
             const rook = this.chessBoard.board[0][src.j]
             this.chessBoard.board[2][src.j] = piece
@@ -117,7 +114,6 @@ export default function(player) {
             return true
 
           } else {
-            console.log('02');
             handleGameStage()
             const rook = this.chessBoard.board[7][src.j]
             this.chessBoard.board[6][src.j] = piece
