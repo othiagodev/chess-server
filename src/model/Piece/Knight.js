@@ -5,46 +5,100 @@ export default function (color, position) {
   this.chessPosition = position
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
-    if (
-      //up
-      ((!board[sourcePosition.i - 1][sourcePosition.j + 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j) ||
-        (board[sourcePosition.i - 1][sourcePosition.j + 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j &&
-          board[sourcePosition.i - 1][sourcePosition.j + 2].color !== this.color)) ||
+    console.log(sourcePosition, targetPosition);
 
-      ((!board[sourcePosition.i + 1][sourcePosition.j + 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j) ||
-        (board[sourcePosition.i + 1][sourcePosition.j + 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j &&
-          board[sourcePosition.i + 1][sourcePosition.j + 2].color !== this.color)) ||
+    //up
+    if (sourcePosition.j + 2 === targetPosition.j) {
+      if (sourcePosition.i + 1 === targetPosition.i && sourcePosition.i + 1 < 8) {
+        if (
+          ((!board[sourcePosition.i + 1][sourcePosition.j + 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j) ||
+            (board[sourcePosition.i + 1][sourcePosition.j + 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j &&
+              board[sourcePosition.i + 1][sourcePosition.j + 2].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
 
-      //right
-      ((!board[sourcePosition.i + 2][sourcePosition.j + 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
-        (board[sourcePosition.i + 2][sourcePosition.j + 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j &&
-          board[sourcePosition.i + 2][sourcePosition.j + 1].color !== this.color)) ||
-
-      ((!board[sourcePosition.i + 2][sourcePosition.j - 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
-        (board[sourcePosition.i + 2][sourcePosition.j - 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j &&
-          board[sourcePosition.i + 2][sourcePosition.j - 1].color !== this.color)) ||
-
-      //down
-      ((!board[sourcePosition.i + 1][sourcePosition.j - 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j) ||
-        (board[sourcePosition.i + 1][sourcePosition.j - 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j &&
-          board[sourcePosition.i + 1][sourcePosition.j - 2].color !== this.color)) ||
-
-      ((!board[sourcePosition.i - 1][sourcePosition.j - 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j) ||
-        (board[sourcePosition.i - 1][sourcePosition.j - 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j &&
-          board[sourcePosition.i - 1][sourcePosition.j - 2].color !== this.color)) ||
-
-      //left
-      ((!board[sourcePosition.i - 2][sourcePosition.j - 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
-        (board[sourcePosition.i - 2][sourcePosition.j - 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j &&
-          board[sourcePosition.i - 2][sourcePosition.j - 1].color !== this.color)) ||
-
-      ((!board[sourcePosition.i - 2][sourcePosition.j + 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
-        (board[sourcePosition.i - 2][sourcePosition.j + 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j &&
-          board[sourcePosition.i - 2][sourcePosition.j + 1].color !== this.color))
-
-    ) {
-      return { status: true }
+      if (sourcePosition.i - 1 === targetPosition.i && sourcePosition.i - 1 >= 0) {
+        if (
+          ((!board[sourcePosition.i - 1][sourcePosition.j + 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j) ||
+            (board[sourcePosition.i - 1][sourcePosition.j + 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 2 === targetPosition.j &&
+              board[sourcePosition.i - 1][sourcePosition.j + 2].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
     }
+
+    //right
+    if (sourcePosition.i + 2 === targetPosition.i) {
+      if (sourcePosition.j + 1 === targetPosition.j && sourcePosition.j + 1 < 8) {
+        if (
+          ((!board[sourcePosition.i + 2][sourcePosition.j + 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
+            (board[sourcePosition.i + 2][sourcePosition.j + 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j &&
+              board[sourcePosition.i + 2][sourcePosition.j + 1].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+
+      if (sourcePosition.j - 1 === targetPosition.j && sourcePosition.j - 1 >= 0) {
+        if (
+          ((!board[sourcePosition.i + 2][sourcePosition.j - 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+            (board[sourcePosition.i + 2][sourcePosition.j - 1] && sourcePosition.i + 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j &&
+              board[sourcePosition.i + 2][sourcePosition.j - 1].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+    }
+
+    //down
+    if (sourcePosition.j - 2 === targetPosition.j) {
+      if (sourcePosition.i + 1 === targetPosition.i && sourcePosition.i + 1 < 8) {
+        if (
+          ((!board[sourcePosition.i + 1][sourcePosition.j - 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j) ||
+            (board[sourcePosition.i + 1][sourcePosition.j - 2] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j &&
+              board[sourcePosition.i + 1][sourcePosition.j - 2].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+
+      if (sourcePosition.i - 1 === targetPosition.i && sourcePosition.i - 1 >= 0) {
+        if (
+          ((!board[sourcePosition.i - 1][sourcePosition.j - 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j) ||
+            (board[sourcePosition.i - 1][sourcePosition.j - 2] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 2 === targetPosition.j &&
+              board[sourcePosition.i - 1][sourcePosition.j - 2].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+    }
+
+    //left
+    if (sourcePosition.i - 2 === targetPosition.i) {
+      if (sourcePosition.j + 1 === targetPosition.j && sourcePosition.j + 1 < 8) {
+        if (
+          ((!board[sourcePosition.i - 2][sourcePosition.j + 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
+            (board[sourcePosition.i - 2][sourcePosition.j + 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j &&
+              board[sourcePosition.i - 2][sourcePosition.j + 1].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+
+      if (sourcePosition.j - 1 === targetPosition.j && sourcePosition.j - 1 >= 0) {
+        if (
+          ((!board[sourcePosition.i - 2][sourcePosition.j - 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+            (board[sourcePosition.i - 2][sourcePosition.j - 1] && sourcePosition.i - 2 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j &&
+              board[sourcePosition.i - 2][sourcePosition.j - 1].color !== this.color))
+        ) {
+          return { status: true }
+        }
+      }
+    }
+
     return { status: false }
   }
 }
