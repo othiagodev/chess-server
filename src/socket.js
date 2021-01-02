@@ -71,6 +71,14 @@ export default io => {
       }
     })
 
+    socket.on('promotion', data => {
+      if (players[socket.id]) {
+        const game = players[socket.id].game
+        game.promotion(data)
+        game.emitToPlayers('next.turn', game.generatorData())
+      }
+    })
+
   })
 
 }

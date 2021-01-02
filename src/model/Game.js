@@ -11,7 +11,7 @@ export const Color = {
   WHITE: 'WHITE'
 }
 
-export default function(player) {
+export default function (player) {
   this.player1 = player
   this.player2 = null
   this.turn = null
@@ -20,6 +20,7 @@ export default function(player) {
   this.check = false
   this.checkMate = false
   this.capturedPieces = []
+  this.promotionPiece = {}
 
   this.inicitialSetup = () => {
     const pieces = []
@@ -28,36 +29,36 @@ export default function(player) {
     pieces.push(new King(Color.WHITE, 'e1'))
     pieces.push(new Queen(Color.WHITE, 'd1'))
     pieces.push(new Rook(Color.WHITE, 'a1'))
-    pieces.push(new Rook(Color.WHITE, 'h1'))
+    //pieces.push(new Rook(Color.WHITE, 'h1'))
     pieces.push(new Bishop(Color.WHITE, 'c1'))
     pieces.push(new Bishop(Color.WHITE, 'f1'))
     pieces.push(new Knight(Color.WHITE, 'b1'))
     pieces.push(new Knight(Color.WHITE, 'g1'))
-    pieces.push(new Pawn(Color.WHITE, 'a2'))
+    pieces.push(new Pawn(Color.WHITE, 'a7'))
     pieces.push(new Pawn(Color.WHITE, 'b2'))
     pieces.push(new Pawn(Color.WHITE, 'c2'))
     pieces.push(new Pawn(Color.WHITE, 'd2'))
     pieces.push(new Pawn(Color.WHITE, 'e2'))
     pieces.push(new Pawn(Color.WHITE, 'f2'))
     pieces.push(new Pawn(Color.WHITE, 'g2'))
-    pieces.push(new Pawn(Color.WHITE, 'h2'))
-    
+    //pieces.push(new Pawn(Color.WHITE, 'h2'))
+
     pieces.push(new King(Color.BLACK, 'e8'))
     pieces.push(new Queen(Color.BLACK, 'd8'))
-    pieces.push(new Rook(Color.BLACK, 'a8'))
+    //pieces.push(new Rook(Color.BLACK, 'a8'))
     pieces.push(new Rook(Color.BLACK, 'h8'))
     pieces.push(new Bishop(Color.BLACK, 'c8'))
     pieces.push(new Bishop(Color.BLACK, 'f8'))
     pieces.push(new Knight(Color.BLACK, 'b8'))
     pieces.push(new Knight(Color.BLACK, 'g8'))
-    pieces.push(new Pawn(Color.BLACK, 'a7'))
+    //pieces.push(new Pawn(Color.BLACK, 'a7'))
     pieces.push(new Pawn(Color.BLACK, 'b7'))
     pieces.push(new Pawn(Color.BLACK, 'c7'))
     pieces.push(new Pawn(Color.BLACK, 'd7'))
     pieces.push(new Pawn(Color.BLACK, 'e7'))
     pieces.push(new Pawn(Color.BLACK, 'f7'))
     pieces.push(new Pawn(Color.BLACK, 'g7'))
-    pieces.push(new Pawn(Color.BLACK, 'h7'))
+    pieces.push(new Pawn(Color.BLACK, 'h2'))
 
     pieces.forEach(piece => this.chessBoard.placaNewPiece(piece))
   }
@@ -104,7 +105,7 @@ export default function(player) {
 
           }
         } else if (isPossibleMove.specialMove === 'castling') {
-          if (trg.i < src.i) { 
+          if (trg.i < src.i) {
             handleGameStage()
             const rook = this.chessBoard.board[0][src.j]
             this.chessBoard.board[2][src.j] = piece
@@ -123,6 +124,21 @@ export default function(player) {
             return true
 
           }
+        } else if (isPossibleMove.specialMove === 'promotion') {
+          console.log('promotion');
+          if (this.chessBoard.board[trg.i][trg.j])
+            this.capturedPieces.push(this.chessBoard.board[trg.i][trg.j])
+
+          piece.moveCount += 1
+          piece.chessPosition = targetPosition
+          this.chessBoard.board[trg.i][trg.j] = piece
+          this.chessBoard.board[src.i][src.j] = null
+          this.promotionPiece['target'] = trg
+
+          const currentPlayer = (this.player1.playerColor === this.currentPlayer) ? this.player1 : this.player2
+          currentPlayer.socket.emit('promotion', this.generatorData())
+          
+          return true
         } else {
           handleGameStage()
           if (this.chessBoard.board[trg.i][trg.j])
@@ -140,6 +156,34 @@ export default function(player) {
 
   const undoMovePiece = () => {
 
+  }
+
+  this.promotion = piece => {
+    const target = this.promotionPiece['target']
+    
+    this.chessBoard.board[target.i][target.j] = this.newPromotionPiece(piece.symbol)
+    delete this.promotionPiece['target']
+
+    this.turn++
+    this.currentPlayer = this.currentPlayer === Color.WHITE ? Color.BLACK : Color.WHITE
+  }
+
+  this.newPromotionPiece = piece => {
+    let newPiece = null
+    switch(piece) {
+      case 'Q':
+        newPiece = new Queen(this.currentPlayer)
+        break;
+      case 'R':
+        newPiece = new Rook(this.currentPlayer)
+        break;
+      case 'B':
+        newPiece = new Bishop(this.currentPlayer)
+        break;
+      case 'N':
+        newPiece = new Knight(this.currentPlayer)
+    }
+    return newPiece
   }
 
   this.generatorData = () => {
@@ -171,9 +215,9 @@ export default function(player) {
       const players = [this.player1, this.player2]
       players.forEach(player => {
         if (data)
-        player.socket.emit(string, data)
+          player.socket.emit(string, data)
         else
-        player.socket.emit(string)
+          player.socket.emit(string)
       })
     }
   }
