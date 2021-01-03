@@ -40,20 +40,20 @@ export default function (color, position) {
     //en passant
     if (this.color === Color.WHITE) {
       //pawn white move
-      if (sourcePosition.j === 5) {
+      if (sourcePosition.j === 4) {
         if (
-          (board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j + 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
-          (board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j + 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
+          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j + 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
+          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j + 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
         ) {
           return { status: true, specialMove: 'enPassant' }
         }
       }
     } else {
       //pawn black move
-      if (sourcePosition.j === 4) {
+      if (sourcePosition.j === 3) {
         if (
-          (board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j - 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
-          (board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j - 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
+          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j - 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
+          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j - 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
         ) {
           return { status: true, specialMove: 'enPassant' }
         }
