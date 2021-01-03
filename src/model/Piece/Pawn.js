@@ -12,8 +12,8 @@ export default function (color, position) {
       if (
         (!board[sourcePosition.i][sourcePosition.j + 1] && sourcePosition.i === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
         (!board[sourcePosition.i][sourcePosition.j + 2] && sourcePosition.i === targetPosition.i && sourcePosition.j + 2 === targetPosition.j && !this.moveCount) ||
-        (board[targetPosition.i][targetPosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
-        (board[targetPosition.i][targetPosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j)
+        (board[targetPosition.i][targetPosition.j] && board[targetPosition.i][targetPosition.j].color !== this.color && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j) ||
+        (board[targetPosition.i][targetPosition.j] && board[targetPosition.i][targetPosition.j].color !== this.color && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j + 1 === targetPosition.j)
       ) {
         //promotion
         if (sourcePosition.j + 1 === targetPosition.j && targetPosition.j === 7) {
@@ -24,10 +24,10 @@ export default function (color, position) {
     } else {
       //pawn black move
       if (
-        (!board[sourcePosition.i][sourcePosition.j + 1] && sourcePosition.i === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
-        (!board[sourcePosition.i][sourcePosition.j + 2] && sourcePosition.i === targetPosition.i && sourcePosition.j - 2 === targetPosition.j && !this.moveCount) ||
-        (board[targetPosition.i][targetPosition.j] && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
-        (board[targetPosition.i][targetPosition.j] && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j)
+        (!board[sourcePosition.i][sourcePosition.j - 1] && sourcePosition.i === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+        (!board[sourcePosition.i][sourcePosition.j - 2] && sourcePosition.i === targetPosition.i && sourcePosition.j - 2 === targetPosition.j && !this.moveCount) ||
+        (board[targetPosition.i][targetPosition.j] && board[targetPosition.i][targetPosition.j].color !== this.color && sourcePosition.i - 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j) ||
+        (board[targetPosition.i][targetPosition.j] && board[targetPosition.i][targetPosition.j].color !== this.color && sourcePosition.i + 1 === targetPosition.i && sourcePosition.j - 1 === targetPosition.j)
       ) {
         //promotion
         if (sourcePosition.j - 1 === targetPosition.j  && targetPosition.j === 0) {
@@ -42,8 +42,8 @@ export default function (color, position) {
       //pawn white move
       if (sourcePosition.j === 4) {
         if (
-          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j + 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
-          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j + 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
+          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && board[sourcePosition.i - 1][sourcePosition.j].color !== this.color && !board[sourcePosition.i - 1][sourcePosition.j + 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
+          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && board[sourcePosition.i + 1][sourcePosition.j].color !== this.color && !board[sourcePosition.i + 1][sourcePosition.j + 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
         ) {
           return { status: true, specialMove: 'enPassant' }
         }
@@ -52,8 +52,8 @@ export default function (color, position) {
       //pawn black move
       if (sourcePosition.j === 3) {
         if (
-          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && !board[sourcePosition.i - 1][sourcePosition.j - 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
-          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && !board[sourcePosition.i + 1][sourcePosition.j - 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
+          (targetPosition.i < sourcePosition.i && board[sourcePosition.i - 1][sourcePosition.j] && board[sourcePosition.i - 1][sourcePosition.j].color !== this.color && !board[sourcePosition.i - 1][sourcePosition.j - 1] && board[sourcePosition.i - 1][sourcePosition.j].moveCount === 1) ||
+          (targetPosition.i > sourcePosition.i && board[sourcePosition.i + 1][sourcePosition.j] && board[sourcePosition.i + 1][sourcePosition.j].color !== this.color && !board[sourcePosition.i + 1][sourcePosition.j - 1] && board[sourcePosition.i + 1][sourcePosition.j].moveCount === 1)
         ) {
           return { status: true, specialMove: 'enPassant' }
         }
