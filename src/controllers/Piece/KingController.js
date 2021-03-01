@@ -1,10 +1,15 @@
+import Piece from '../../models/Piece.js'
+
 export default function (color, position) {
-  this.symbol = 'K'
-  this.color = color
-  this.moveCount = 0
+  const piece = Piece(color, position, 'K')
+
+  this.chessPosition = piece.chessPosition
+  this.color = piece.color
+  this.moveCount = piece.moveCount
+  this.symbol = piece.symbol
   this.isCheck = false
   this.checkmate = false
-  this.chessPosition = position
+
   this.possibleMove = (board, sourcePosition, targetPosition) => {
 
     if (

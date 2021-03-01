@@ -9,6 +9,7 @@ const config = {
     methods: process.env.METHODS.split(',')
   }
 }
+
 const app = express()
 const server = http.createServer(app)
 socket(new Server(server, config))
